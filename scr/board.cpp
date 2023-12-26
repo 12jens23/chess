@@ -1,11 +1,14 @@
 #include<iostream>
 #include <ctype.h>
 #include <stdbool.h>
+#include "move.cpp"
+#include <vector>
 class board
 {
 private:
     char boardsquare[8][8];
     bool whiteturn;
+    std::vector<move> pseudu_possible_moves;
 public:
     void setboardbyfen(std::string FEN)
     {        
@@ -102,27 +105,102 @@ public:
         return;
     }
     
-    bool isvalidmove(int sfile,int srank,int efile,int erank){
-        bool sofar=true;
-        if(whiteturn && boardsquare[srank][sfile]<96 && boardsquare[srank][sfile] != 'e'){
-            
-        }
-        else if (!whiteturn && boardsquare[srank][sfile]>96 && boardsquare[srank][sfile] != 'e')
+    void add_move_if_inside_board(int srank,int sfile,int erank, int efile){
+        if (-1 < srank && srank < 8 && -1 < sfile && sfile < 8 && -1 < erank && erank < 8 && -1 < efile && efile < 8)
         {
             
-        }
-        else
-        {
-            std::cout<<"invald move";
-            return false;
-        }
-        if (sfile==efile && srank==erank)
-        {
-            std::cout<<"invald move";
-            return false;
+           move x;
+           x.setmove(srank,sfile,erank,efile);
+           pseudu_possible_moves.emplace_back(x);
+           
+           
         }
         
-        return sofar;
+    }
+
+    void generate_moves ()
+    {
+        pseudu_possible_moves.clear();
+        for (size_t rank = 0; rank < 8; rank++)
+        {
+            for (int file = 0; file < 8; file++)
+            {
+                switch (boardsquare[rank][file])
+                {
+                case 'e':
+                    /* code */
+                    break;
+                case 'n':
+                    if (!whiteturn)
+                    {
+                        add_move_if_inside_board(rank,file,rank+2,file+1);
+                        add_move_if_inside_board(rank,file,rank+1,file+2);
+                        add_move_if_inside_board(rank,file,rank+2,file-1);
+                        add_move_if_inside_board(rank,file,rank+1,file-2);
+                        add_move_if_inside_board(rank,file,rank-2,file+1);
+                        add_move_if_inside_board(rank,file,rank-1,file+2);
+                        add_move_if_inside_board(rank,file,rank-2,file-1);
+                        add_move_if_inside_board(rank,file,rank-1,file-2);
+                        
+                    }
+                    
+                    break;
+                case 'N':
+                    if (whiteturn)
+                    {
+                        add_move_if_inside_board(rank,file,rank+2,file+1);
+                        add_move_if_inside_board(rank,file,rank+1,file+2);
+                        add_move_if_inside_board(rank,file,rank+2,file-1);
+                        add_move_if_inside_board(rank,file,rank+1,file-2);
+                        add_move_if_inside_board(rank,file,rank-2,file+1);
+                        add_move_if_inside_board(rank,file,rank-1,file+2);
+                        add_move_if_inside_board(rank,file,rank-2,file-1);
+                        add_move_if_inside_board(rank,file,rank-1,file-2);
+                        
+                    }
+                    break;
+                case 'r':
+                    /* code */
+                    break;
+                case 'R':
+                    /* code */
+                    break;
+                case 'b':
+                    /* code */
+                    break;
+                case 'B':
+                    /* code */
+                    break;
+                case 'q':
+                    /* code */
+                    break;
+                case 'Q':
+                    /* code */
+                    break;
+
+                default:
+                    break;
+                }
+            }
+            
+        }
+        
+    }
+
+    bool isvalidmove(int sfile,int srank,int efile,int erank){
+        move x;
+        x.setmove(srank,sfile,erank,efile);
+        generate_moves();
+        for (int i = 0; i < pseudu_possible_moves.size(); i++)
+        {
+            if (pseudu_possible_moves[i].getmovebynumber()==x.getmovebynumber())
+            {
+                return true;
+            }
+            
+            
+        }
+        return false;
     }
     
     board(/* args */);
@@ -137,3 +215,4 @@ board::board(/* args */)
 board::~board()
 {
 }
+

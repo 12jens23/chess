@@ -4,7 +4,7 @@
 #include"boardloader.cpp"
 #include"board.cpp"
 
-class vec2
+class position
 {
 
 public:
@@ -22,7 +22,7 @@ int main()
     
     std::string fenstart="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR ";
 
-    vec2 selectedsquare;
+    position selectedsquare;
     selectedsquare.file=9;
     selectedsquare.rank=9;
     
