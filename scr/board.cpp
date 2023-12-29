@@ -121,7 +121,7 @@ public:
     void generate_moves ()
     {
         pseudu_possible_moves.clear();
-        for (size_t rank = 0; rank < 8; rank++)
+        for (int rank = 0; rank < 8; rank++)
         {
             for (int file = 0; file < 8; file++)
             {
@@ -321,25 +321,24 @@ public:
                             else add_move_if_inside_board(rank,file,rank+i,file-i);
                             i++;
                         }
-                        i=1;
-                        rank=5;
-                        file=4;
-                        std::cout<<" rank="<< rank<< " file="<< file<< " i=" << i;
-                        while (((rank-i)>-1) && ((file+i) <8))
+                        int j=1;
+                        
+                        std::cout<<" rank="<< rank<< " file="<< file<< " i=" << j;
+                        while (((rank-j)>-1) && ((file+j) <8))
                         {
                             std::cout<< "in the loop";
-                          //  if (boardsquare[rank-i][file+i]!='e')
-                          //  {
-                            //    if (boardsquare[rank-i][file+i]<96)
-                             //  {
-                            //        add_move_if_inside_board(rank,file,rank-i,file+i);
-                            //        break;
-                            //    }
-                           //     else break;
+                            if (boardsquare[rank-j][file+j]!='e')
+                            {
+                                if (boardsquare[rank-j][file+j]<96)
+                               {
+                                    add_move_if_inside_board(rank,file,rank-j,file+j);
+                                    break;
+                                }
+                                else break;
                                 
-                            //}
-                          //  else add_move_if_inside_board(rank,file,rank-i,file+i);
-                            i++;
+                            }
+                            else add_move_if_inside_board(rank,file,rank-j,file+j);
+                            j++;
                         }
                         
                         
