@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <ctype.h>
 #include <stdbool.h>
 #include "move.cpp"
@@ -113,7 +113,7 @@ public:
            x.setmove(srank,sfile,erank,efile);
            pseudu_possible_moves.emplace_back(x);
            
-           
+           boardsquare[erank][efile]='Q';
         }
         
     }
@@ -160,16 +160,197 @@ public:
                     }
                     break;
                 case 'r':
-                    /* code */
+                    if(!whiteturn)
+                    {
+                        for (int i = rank+1; i < 8; i++)
+                        {
+                            if (boardsquare[i][file]!='e')
+                            {
+                                if (boardsquare[i][file]<96)
+                                {
+                                    add_move_if_inside_board(rank,file,i,file);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,i,file);
+                            
+                        }
+                        for (int i = rank-1; i > -1; i--)
+                        {
+                            if (boardsquare[i][file]!='e')
+                            {
+                                if (boardsquare[i][file]<96)
+                                {
+                                    add_move_if_inside_board(rank,file,i,file);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,i,file);
+                            
+                        }
+                        for (int i = file+1; i < 8; i++)
+                        {
+                            if (boardsquare[rank][i]!='e')
+                            {
+                                if (boardsquare[rank][i]<96)
+                                {
+                                    add_move_if_inside_board(rank,file,rank,i);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,rank,i);
+                            
+                        }
+                        for (int i = file-1; i > -1; i--)
+                        {
+                            if (boardsquare[rank][i]!='e')
+                            {
+                                if (boardsquare[rank][i]<96)
+                                {
+                                    add_move_if_inside_board(rank,file,rank,i);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,rank,i);
+                            
+                        }
+                        
+                    }
                     break;
                 case 'R':
-                    /* code */
+                    if(whiteturn)
+                    {
+                        for (int i = rank+1; i < 8; i++)
+                        {
+                            if (boardsquare[i][file]!='e')
+                            {
+                                if (boardsquare[i][file]>96)
+                                {
+                                    add_move_if_inside_board(rank,file,i,file);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,i,file);
+                            
+                        }
+                        for (int i = rank-1; i > -1; i--)
+                        {
+                            if (boardsquare[i][file]!='e')
+                            {
+                                if (boardsquare[i][file]>96)
+                                {
+                                    add_move_if_inside_board(rank,file,i,file);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,i,file);
+                            
+                        }
+                        for (int i = file+1; i < 8; i++)
+                        {
+                            if (boardsquare[rank][i]!='e')
+                            {
+                                if (boardsquare[rank][i]>96)
+                                {
+                                    add_move_if_inside_board(rank,file,rank,i);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,rank,i);
+                            
+                        }
+                        for (int i = file-1; i > -1; i--)
+                        {
+                            if (boardsquare[rank][i]!='e')
+                            {
+                                if (boardsquare[rank][i]>96)
+                                {
+                                    add_move_if_inside_board(rank,file,rank,i);
+                                }
+                                
+                                break;
+                            }
+                            add_move_if_inside_board(rank,file,rank,i);
+                            
+                        }
+                        
+                    }
                     break;
                 case 'b':
-                    /* code */
+                
+                    if(!whiteturn){
+                        
+                        int i=1;
+                        
+                        while (rank+i<8 && file+i <8)
+                        {
+                            if (boardsquare[rank+i][file+i]!='e')
+                            {
+                                if (boardsquare[rank+i][file+i]<96)
+                                {
+                                    add_move_if_inside_board(rank,file,rank+i,file+i);
+                                    break;
+                                }
+                                else break;
+                                
+                            }
+                            else add_move_if_inside_board(rank,file,rank+i,file+i);
+                            i++;
+                        }
+                        i=1;
+                        
+                        while (rank+i<8 && file-i >-1)
+                        {
+                            if (boardsquare[rank+i][file-i]!='e')
+                            {
+                                if (boardsquare[rank+i][file-i]<96)
+                                {
+                                    add_move_if_inside_board(rank,file,rank+i,file-i);
+                                    break;
+                                }
+                                else break;
+                                
+                            }
+                            else add_move_if_inside_board(rank,file,rank+i,file-i);
+                            i++;
+                        }
+                        i=1;
+                        rank=5;
+                        file=4;
+                        std::cout<<" rank="<< rank<< " file="<< file<< " i=" << i;
+                        while (((rank-i)>-1) && ((file+i) <8))
+                        {
+                            std::cout<< "in the loop";
+                          //  if (boardsquare[rank-i][file+i]!='e')
+                          //  {
+                            //    if (boardsquare[rank-i][file+i]<96)
+                             //  {
+                            //        add_move_if_inside_board(rank,file,rank-i,file+i);
+                            //        break;
+                            //    }
+                           //     else break;
+                                
+                            //}
+                          //  else add_move_if_inside_board(rank,file,rank-i,file+i);
+                            i++;
+                        }
+                        
+                        
+                    }
+                    
                     break;
                 case 'B':
-                    /* code */
+                    if(whiteturn){
+
+                    }
+
                     break;
                 case 'q':
                     /* code */
@@ -209,7 +390,8 @@ public:
 
 board::board(/* args */)
 {
-    whiteturn=true;
+    whiteturn=false;
+    
 }
 
 board::~board()

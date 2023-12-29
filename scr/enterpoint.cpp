@@ -28,7 +28,7 @@ int main()
     
     board mainboard;
     
-    mainboard.setboardbyfen(fenstart);
+    mainboard.setboardbyfen("8/8/8/8/8/4b3/8/8 ");
     while (window.isOpen())
     {
         
