@@ -321,24 +321,24 @@ public:
                             else add_move_if_inside_board(rank,file,rank+i,file-i);
                             i++;
                         }
-                        int j=1;
+                        i=1;
                         
-                        std::cout<<" rank="<< rank<< " file="<< file<< " i=" << j;
-                        while (((rank-j)>-1) && ((file+j) <8))
+                        std::cout<<" rank="<< rank<< " file="<< file<< " i=" << i;
+                        while (((rank-i)>-1) && ((file+i) <8))
                         {
                             std::cout<< "in the loop";
-                            if (boardsquare[rank-j][file+j]!='e')
+                            if (boardsquare[rank-i][file+i]!='e')
                             {
-                                if (boardsquare[rank-j][file+j]<96)
+                                if (boardsquare[rank-i][file+i]<96)
                                {
-                                    add_move_if_inside_board(rank,file,rank-j,file+j);
+                                    add_move_if_inside_board(rank,file,rank-i,file+i);
                                     break;
                                 }
                                 else break;
                                 
                             }
-                            else add_move_if_inside_board(rank,file,rank-j,file+j);
-                            j++;
+                            else add_move_if_inside_board(rank,file,rank-i,file+i);
+                            i++;
                         }
                         
                         
