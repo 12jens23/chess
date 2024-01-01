@@ -28,7 +28,8 @@ int main()
     
     board mainboard;
     
-    mainboard.setboardbyfen("8/8/8/8/8/4b3/8/8 ");
+    mainboard.setboardbyfen(fenstart);
+    mainboard.print_board();
     while (window.isOpen())
     {
         
@@ -46,14 +47,14 @@ int main()
                 {
                     if (selectedsquare.file != 9 && selectedsquare.rank != 9)
                     {
-                        mainboard.makemove(selectedsquare.file, selectedsquare.rank,event.mouseButton.x/140,event.mouseButton.y/140);
+                        mainboard.makemove(selectedsquare.file, selectedsquare.rank,event.mouseButton.x/140,7-(event.mouseButton.y/140));
                         selectedsquare.file=9;
                         selectedsquare.rank=9;
                     }
                     else{
                         selectedsquare.file=event.mouseButton.x/140;
-                        selectedsquare.rank=event.mouseButton.y/140;
-                        std::cout<< "selceted:" <<event.mouseButton.x/140<<","<< event.mouseButton.y/140;
+                        selectedsquare.rank=7-(event.mouseButton.y/140);
+                        std::cout<< "selceted:" <<event.mouseButton.x/140<<","<< 7-(event.mouseButton.y/140);
                     }
                     
                 }
@@ -64,6 +65,7 @@ int main()
 
         
         window.clear();
+        
         boardloader::drawfen(mainboard.getboardbystring(),window);
         window.display();
     }
