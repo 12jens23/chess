@@ -6,7 +6,8 @@ private:
     //the next are for the end square still the rank before the file    0000001111110000
     //this is a flag for check                                          0000000000001000
     // this is a flag for promotion                                     0000000000000100
-    // these i dont use right now                                       0000000000000011
+    // this is a flag for double pawn move
+    // these i dont use right now                                       0000000000000001
     short int movedata;
 public:
     void setmove(int srank, int sfile,int erank, int efile)

@@ -3,12 +3,14 @@
 #include <stdbool.h>
 #include "move.cpp"
 #include <vector>
+#include <stdint.h>
 class board
 {
 private:
     char boardsquare[8][8];
     bool whiteturn;
     std::vector<move> pseudu_possible_moves;
+    int64_t ent_passent_bitboard;
 public:
     void setboardbyfen(std::string FEN)
     {        
@@ -602,18 +604,19 @@ public:
                         if (boardsquare[rank-2][file]=='e')
                         {
                         add_move_if_inside_board(rank,file,rank-2,file);
+                        ent_passent_bitboard=make_bitboard_number(rank-2,file);
                         } 
                     }
                     if (move_is_inside_board(rank,file,rank-1,file+1))
                     {
-                        if (boardsquare[rank-1][file+1]!='e' && boardsquare[rank-1][file+1]<96)
+                        if (boardsquare[rank-1][file+1]!='e' && boardsquare[rank-1][file+1]<96 || make_bitboard_number(rank,file+1)==ent_passent_bitboard)
                         {
                         add_move_if_inside_board(rank,file,rank-1,file+1);
                         }
                     }
                     if (move_is_inside_board(rank,file,rank-1,file-1))
                     {
-                        if (boardsquare[rank-1][file-1]!='e' && boardsquare[rank-1][file-1]<96)
+                        if (boardsquare[rank-1][file-1]!='e' && boardsquare[rank-1][file-1]<96 || make_bitboard_number(rank,file-1)==ent_passent_bitboard)
                         {
                         add_move_if_inside_board(rank,file,rank-1,file-1);
                         }
@@ -635,13 +638,19 @@ public:
                         if (boardsquare[rank+2][file]=='e')
                         {
                         add_move_if_inside_board(rank,file,rank+2,file);
+                        ent_passent_bitboard=make_bitboard_number(rank+2,file);
                         } 
                     }
                     if (move_is_inside_board(rank,file,rank+1,file+1))
                     {
-                        if (boardsquare[rank+1][file+1]!='e' && boardsquare[rank+1][file+1]>96)
+                        if (boardsquare[rank+1][file+1]!='e' && boardsquare[rank+1][file+1]>96 ||make_bitboard_number(rank,file-1)==ent_passent_bitboard)
                         {
                         add_move_if_inside_board(rank,file,rank+1,file+1);
+                        }
+                        if (make_bitboard_number(rank,file+1)==ent_passent_bitboard && boardsquare[rank][file+1]=='P')
+                        {
+                        add_move_if_inside_board(rank,file,rank+1,file+1);
+                        boardsquare[rank][file+1]='e';
                         }
                     }
                     if (move_is_inside_board(rank,file,rank+1,file-1))
@@ -649,6 +658,11 @@ public:
                         if (boardsquare[rank+1][file-1]!='e' && boardsquare[rank+1][file+1]>96)
                         {
                         add_move_if_inside_board(rank,file,rank+1,file-1);
+                        }
+                        if (make_bitboard_number(rank,file-1)==ent_passent_bitboard && boardsquare[rank][file-1]=='P')
+                        {
+                        add_move_if_inside_board(rank,file,rank+1,file-1);
+                        boardsquare[rank][file-1]='e';
                         }
                     }
                     
@@ -700,6 +714,14 @@ public:
         
     }
     
+    int64_t make_bitboard_number(int rank, int file)
+    {
+        int64_t rval=1;
+        rval=rval<<1*file;
+        rval=rval<<8*rank;
+    return rval;
+    }
+
     bool isvalidmove(int sfile,int srank,int efile,int erank){
         move x;
         x.setmove(srank,sfile,erank,efile);
@@ -735,6 +757,7 @@ public:
 board::board(/* args */)
 {
     whiteturn=true;
+    ent_passent_bitboard=0;
     
 }
 
